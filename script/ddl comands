@@ -1,0 +1,16 @@
+-- Create database
+CREATE DATABASE coffee_sales;
+-- Create sales table
+CREATE TABLE coffee_sales (
+    id SERIAL PRIMARY KEY,
+    sale_date DATE NOT NULL,
+    sale_datetime TIMESTAMP NOT NULL,
+    hour_of_day INT NOT NULL,
+    cash_type VARCHAR(20) NOT NULL,
+    card_number VARCHAR(50),
+    transaction_amount VARCHAR(20) NOT NULL,
+    coffee_name VARCHAR(50) NOT NULL,
+    time_of_day VARCHAR(20) NOT NULL,
+    week_day VARCHAR(20) NOT NULL,
+    month_name VARCHAR(20) NOT NULL
+);
