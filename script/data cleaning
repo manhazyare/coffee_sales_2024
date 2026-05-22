@@ -1,0 +1,17 @@
+# Data cleaning
+-- Replace NULL card numbers with a readable label
+UPDATE coffee_sales
+SET card_number = COALESCE(card_number, 'Paid by Cash');
+
+-- Remove 'R' currency symbol and extra spaces
+UPDATE coffee_sales
+SET transaction_amount =
+    TRIM(REPLACE(transaction_amount, 'R', ''));
+
+-- Convert transaction amount from VARCHAR to NUMERIC
+ALTER TABLE coffee_sales
+ALTER COLUMN transaction_amount
+TYPE NUMERIC(10,2)
+USING CAST(transaction_amount AS NUMERIC(10,2));
+
+The data was already clean overall; it only needed those changes.
