@@ -1,0 +1,50 @@
+/* =========================================================
+1. Which coffee product generates the highest total revenue?
+- Groups sales by coffee product
+- Orders from highest to lowest revenue
+- LIMIT 1 returns the top-performing product
+========================================================= */
+
+SELECT
+    coffee_name,
+    SUM(transaction_amount) AS total_revenue
+FROM coffee_sales
+GROUP BY coffee_name
+ORDER BY total_revenue DESC
+LIMIT 1;
+/* =========================================================
+2. At what time of day do customers make the most purchases?
+- Calculates total sales amount by time period
+- Orders results from highest to lowest purchase value
+========================================================= */
+
+SELECT
+    time_of_day,
+    SUM(transaction_amount) AS total_purchase
+FROM coffee_sales
+GROUP BY time_of_day
+ORDER BY total_purchase DESC;
+/* =========================================================
+3. How does total monthly revenue trend across March 2024
+   to February 2025?
+   
+Notes:
+- Since your dataset spans across two years,
+  using only month names can cause incorrect sorting.
+- We use YEAR + MONTH for accurate chronological order.
+- TO_CHAR formats the display nicely.
+========================================================= */
+
+SELECT
+    TO_CHAR(sale_date, 'Mon YYYY') AS month_name,
+    EXTRACT(YEAR FROM sale_date) AS year_num,
+    EXTRACT(MONTH FROM sale_date) AS month_num,
+    SUM(transaction_amount) AS monthly_revenue
+FROM coffee_sales
+GROUP BY
+    TO_CHAR(sale_date, 'Mon YYYY'),
+    EXTRACT(YEAR FROM sale_date),
+    EXTRACT(MONTH FROM sale_date)
+ORDER BY
+    year_num,
+    month_num;
