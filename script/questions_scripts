@@ -48,3 +48,77 @@ GROUP BY
 ORDER BY
     year_num,
     month_num;
+/* =========================================================
+4. What are the total sales and revenue for each quarter?
+- Counts total transactions per quarter
+- Calculates total revenue for each quarter
+- Includes year to avoid mixing quarters across years
+========================================================= */
+
+SELECT
+    EXTRACT(YEAR FROM sale_date) AS year_num,
+    EXTRACT(QUARTER FROM sale_date) AS quarter_num,
+    COUNT(*) AS total_sales,
+    SUM(transaction_amount) AS total_revenue
+FROM coffee_sales
+GROUP BY
+    EXTRACT(YEAR FROM sale_date),
+    EXTRACT(QUARTER FROM sale_date)
+ORDER BY
+    year_num,
+    quarter_num;
+/* =========================================================
+5. Which payment method do customers prefer?
+- Counts how many transactions were made
+  using each payment method
+- Orders from most used to least used
+========================================================= */
+
+SELECT
+    cash_type AS payment_method,
+    COUNT(*) AS total_transactions
+FROM coffee_sales
+GROUP BY cash_type
+ORDER BY total_transactions DESC;
+/* =========================================================
+5B. Does payment preference vary by product?
+- Shows payment method usage for each coffee product
+- Useful for identifying customer payment behavior
+========================================================= */
+
+SELECT
+    coffee_name,
+    cash_type AS payment_method,
+    COUNT(*) AS total_transactions
+FROM coffee_sales
+GROUP BY
+    coffee_name,
+    cash_type
+ORDER BY
+    coffee_name,
+    total_transactions DESC;
+/* =========================================================
+6. Which day of the week has the highest transaction volume?
+- Counts transactions for each weekday
+- Orders from highest to lowest transaction volume
+========================================================= */
+
+SELECT
+    week_day,
+    COUNT(*) AS total_transactions
+FROM coffee_sales
+GROUP BY week_day
+ORDER BY total_transactions DESC;
+/* =========================================================
+7. What is the average transaction value per coffee product?
+- Calculates average revenue generated per transaction
+  for each coffee product
+- ROUND used for cleaner presentation
+========================================================= */
+
+SELECT
+    coffee_name,
+    ROUND(AVG(transaction_amount), 2) AS avg_transaction_value
+FROM coffee_sales
+GROUP BY coffee_name
+ORDER BY avg_transaction_value DESC;
